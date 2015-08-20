@@ -1,0 +1,81 @@
+% layout 'default';
+% title "FlyAtlas : Gene Search";
+
+<div class="container">
+    <h1> Gene Search</h1>
+        <h4>For a particular Drosophila gene, find the pattern of expression in different tissues :</h4>
+        
+        <form method = "get" action = "/genesearch">
+            <div class="radio">
+                <label><input type="radio" name="searchtype" value="1">Gene Symbol (e.g. vkg)</label>
+            </div>
+
+            <div class="radio">
+                <label><input type="radio" name="searchtype" value="2">Gene Name (e.g. viking)</label>
+            </div>
+
+            <div class="radio">
+                <label><input type="radio" name="searchtype" value="3">Annotation Symbol (e.g. CG16858)</label>
+            </div>
+
+            <div class="radio">
+                <label><input type="radio" name="searchtype" value="4">FlyBase ID (e.g. FBgn0016075)</label>
+            </div>
+              
+            
+            <div class="form-group">
+                <label for="gene">Gene :</label>
+                <input type="text" class="form-control" id="gene" name="gene" placeholder="Enter search text">
+            </div>
+            
+            <button type="submit" class="formButton btn btn-default">Search&nbsp;<span class="glyphicon glyphicon-question-sign"></span></button>
+            <button type="reset" class="formButton btn btn-default">Clear&nbsp;<span class="glyphicon glyphicon-remove-sign"></span></button>
+        </form>
+</div>
+
+%#If results found, they are displayed below
+
+% if ($gene) {
+ <div class="container">
+ <h1> Search results for: '<%= $gene %>'</h1>
+
+<table border = "1" cellpadding = "3" cellspacing = "3">
+    <thead>
+        <tr>
+            <th> Tissue</th>
+            <th> Adult Abundance </th>
+            <th> Adult Enrichment </th>
+            <th> Larval Abundance </th>
+            <th> Larval Enrichment </th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+    <% my $gene_name; %>  
+    <% foreach my $result (@{$results}) { %>
+          
+
+        <% if(!$gene_name){ %>
+        <%    $gene_name = $result->[0];    %>
+        <% } %>
+        <% delete $result->[0]; %>
+     <% } %>   
+
+    <div><%= $gene_name %></div>
+
+        <% foreach my $result (@{$results}) { %>
+        <tr>
+        <% foreach my $item (@{$result}) { %>
+            <td><%= $item %></td>
+        <% } %>
+        </tr>
+        <% } %> 
+        
+    </tbody>
+</table>   
+</div>
+
+% }
+
+

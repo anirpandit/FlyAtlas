@@ -1,0 +1,9 @@
+$annot_file="Drosophila_2.na23.annot.csv";
+$array_file="all.txt";
+$biogrid_file="BIOGRID-ORGANISM-Drosophila_melanogaster-2.0.34.tab.txt";
+$news_file="news.txt";
+$insitu_file=insitu.txt";
+$homophila_file="homophila.txt";
+$wien_file="wien.txt";
+
+$maxhits=200;
