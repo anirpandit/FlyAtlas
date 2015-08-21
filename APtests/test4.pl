@@ -113,7 +113,7 @@ get '/genesearch' => sub {
     $self->stash(
         gene => $gene,
         query => $query,
-        results => $sth->fetchall_arrayref()
+        results => $sth->fetchall_arrayref
     );
     
     $self->render('genesearch');

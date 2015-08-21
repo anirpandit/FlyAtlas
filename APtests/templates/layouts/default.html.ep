@@ -4,7 +4,7 @@
         
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="/std.css">
+        <link rel="stylesheet" type="text/css" href="/css/std.css">
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
@@ -13,6 +13,8 @@
 
         <!-- Latest compiled JavaScript -->
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+        <link rel="shortcut icon" href="/img/favicon.ico" />
 
         <title><%= title %></title>
     </head>
@@ -47,7 +49,8 @@
         <div class="container-fluid">
             <div class="row jumbotron">
                 <!--di<v class="col-sm-2"><img src="flyatlas_logo.jpg" alt="Flyatlas logo" width="150" height="151"></div>-->
-                <div class="col-sm-12"><h1 align="center">FlyAtlas: the <i>Drosophila</i> gene expression atlas</h1></div>
+                <div class="col-sm-1"><img style="max-width:540px; align:center; valign:middle" src="/img/bwlogo.png"></div>
+                <div class="col-sm-11"><h1 align="center">FlyAtlas: the <i>Drosophila</i> gene expression atlas</h1></div>
                 <!--<div class="col-sm-2"><a href="http://www.gla.ac.uk"><img src="crest.gif" alt="University of Glasgow" width=200 height="76"></a><br>
                 <a href="http://www.bbsrc.ac.uk"/><img src="bbsrcsmallcolour.gif" alt="Biotechnology &amp; Biological Sciences Research Council" width=200 height="76"></a></div>-->
             </div>

@@ -51,31 +51,70 @@
     </thead>
     <tbody>
 
-
-    <% my $gene_name; %>  
-    <% foreach my $result (@{$results}) { %>
+%# First lets get all the initial values out of the arrayref and into an array of its own
+    <% my $gene_name; my (@info_array); %>  
+    <% foreach my $result (@${results}) { %>
           
-
-        <% if(!$gene_name){ %>
-        <%    $gene_name = $result->[0];    %>
+        <% if (scalar @info_array < 5) { %>
+            <% push @info_array, $result->[0]; %>
+            <% push @info_array, $result->[1]; %>
+            <% push @info_array, $result->[2]; %>
+            <% push @info_array, $result->[3]; %>
+            <% push @info_array, $result->[4]; %>
         <% } %>
-        <% delete $result->[0]; %>
+
+
      <% } %>   
 
-    <div><%= $gene_name %></div>
+    <div><%= $info_array[0] %></div>
+    <div><%= $info_array[1] %></div>
+    <div><%= $info_array[2] %></div>
+    <div><%= $info_array[3] %></div>
+    <div><%= $info_array[4] %></div>
 
-        <% foreach my $result (@{$results}) { %>
+    <% foreach my $result (@{$results}) { %>
+
+        <% my $tissue = $result->[5]; %>
+        <% my $value2 = $result->[6]; %>
+        <% my $value3 = $result->[7]; %>
+        <% my $value4 = roundup($result->[8]); %>
+        <% my $value5 = roundup($result->[9]); %>
+        <% my $value6 = $result->[10]; %>
+        <% my $value7 = $result->[11]; %>
+        <% my $value8 = $result->[12]; %>
+
+        % #IF $value6 is zero then change $abundance to ND#
+
         <tr>
-        <% foreach my $item (@{$result}) { %>
-            <td><%= $item %></td>
-        <% } %>
+            <td><%= $tissue %></td>
+            <td><%= $value2 %></td>
+            <td><%= $value3 %></td>
+
+            <% if ($value6 != 0) { %>
+                <% if ($value6 < 4 ) { %>
+                    <td>  <%= $value4 %> &plusmn; <%= $value5 %> <a href="#" data-toggle="tooltip" title="Detected in <%= $value6 %> out of 4 array(s)"><span class="glyphicon glyphicon-flag"></span> </a> </td>
+                    <td>  <%= $value7 %> <a href="#" data-toggle="tooltip" title="Detected in <%= $value6 %> out of 4 array(s)"><span class="glyphicon glyphicon-flag"></span> </a> </td>
+                <% } else { %>
+                    <td><%= $value4 %> &plusmn; <%= $value5 %></td>
+                    <td><%= $value7 %></td>
+                <% } %>
+                
+            <% } else { %>
+                <td> ND </td>
+                <td> ND </td>
+            <% } %>
+            
+            <td><%= $value7 %></td>
+            <td><%= $value8 %></td>
         </tr>
-        <% } %> 
+    <% } %> 
         
     </tbody>
 </table>   
 </div>
 
 % }
+
+<% sub roundup { my $n = shift; return (($n == int($n)) ? $n : int($n + 0.5))} %>
 
 
