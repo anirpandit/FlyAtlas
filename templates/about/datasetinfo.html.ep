@@ -1,0 +1,69 @@
+% layout 'jumbo';
+% title 'FlyAtlas+: the Drosophila expression atlas';
+
+<div class="container">
+  <h1>Dataset Information</h1>
+
+  <div class="row">
+    <div class="col-md-12">
+
+    	<h3>Background</h3>
+		<p>The dataset so far comprises 44 Affymetrix Dros2 expression arrays, each mapping the expression of 18770 transcripts - corresponding to the vast majority of known Drosophila genes. The dataset thus contains over 822800 separate datapoints. This website is intended to make the data easily accessible and comprehensible to mere mortals.</p>
+		<p>The starting material was wild-type Canton S adult flies, reared at 22C on a 12:12h light regime, on standard Drosophila diet, 1 week after adult emergence. We chose adults because (a) embryonic expression is already well covered elsewhere, and (b) we think that functional genomics requires analysis of function, not just of development. So if you have a gene of interest, it may be important (or just easier) to study it in adults. This website will tell you which tissues you should focus on first.</p>
+		<p>Tissues were dissected out (from equal numbers of male and female 7-day old flies except -obviously - in the case of gonads) and pooled to make at least 1500 ng mRNA, then amplified and hybridised using the Affymetrix standard protocol. For each tissue, 4 independent biological replicates were obtained. Each array thus corresponds to one biological replicate.</p>
+
+		<h3>Tissues Information</h3>
+		<div class="table-responsive">
+            <table class="table table-hover table-bordered display">
+                <thead>
+                    <tr>
+                        <th> Tissue Name </th>
+                        <th> Tissue Definition</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                % foreach my $result (@{$tissueinfo}) {
+                    % my $TissueName = $result->[0];
+                    % my $TissueDefinition = $result->[1];
+
+                    <tr>
+                    	<td><%= $TissueName %></td>
+                        <td><%= $TissueDefinition %></td>
+                        
+                    </tr>
+                % }  
+                </tbody>
+            </table> 
+        </div>
+
+		<h3>Other Tissues</h3>
+		<p>We also have larval tissues (from mixed sex, wandering third instar larvae)</p>
+			<ul>
+				<li>Larval salivary glands</li>
+				<li>Larval Midgut</li>
+				<li>Larval Malpighian tubule</li>
+				<li>Larval hindgut</li>
+				<li>Larval fat body </li>
+			</ul>
+
+		<h3>Possible Deductions</h3>
+		<p>This means you can deduce at least 3 things from the results</p>
+		<ul>
+			<li>the SIGNAL tells how abundant your gene's mRNA is in each tissue (the SEM value shows you how consistent or variable the answer is). Typically, we'd think of anything over 100 as being abundant, and anything over 1000 as remarkable.</li>
+			<li>the PRESENT call tells you how many of the four arrays for each sample actually gave a detectable expression, according to Affymetrix's GCOS software. Clearly, if you get an average signal of 2 and a present call of 0/4, you shouldn't consider this gene to be truly expressed in that tissue.</li>
+			<li>the ENRICHMENT tells you how much higher the signal is in a particular tissue than in the whole fly, i.e. whether the gene is tissue-specific. If you find a gene that is highly enriched in one tissue, this tells you that your initial experimental focus should be on that tissue.</li>
+		</ul>
+
+		<h3>Validation</h3>
+		<p>We checked a number of genes with known specificity. So for example, the visual transduction channel gene trp has a signal of 2649 in head, but only 74 in brain, confirming that the brains were cleanly dissected. Conversely, the potassium channel Shaker had a signal of 676 in brain but a signal below 30 in head and all other tissues studied. Of course, such analyses can lead to some real 'gems': genes that are fantastically enriched in individual tissues</p> 
+
+        <h3>The cel files</h3>
+        <p>The raw Affymetrix array data files (If you don't know what these are, your bioinformatician will) have been mounted on <a class="btn btn-one round" href="http://www.ncbi.nlm.nih.gov/geo/"><span class="glyphicon glyphicon-link"></span> Geo</a> with the accession number <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE7763" class="btn btn-one round"><span class="glyphicon glyphicon-link"></span> GSE7763</a>.</p> 
+    </div>
+  </div>
+
+</div>
+
+

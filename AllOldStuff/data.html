@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body>
+
+<table width="100%" border=0 cellpadding="1">
+  <tr>
+    <td width="150"><img src="flyatlas_logo.jpg" alt="Flyatlas logo" width="150" height="151"></td>
+   <td ><h1 align="center"><font color="#000099" size="5" face="Arial, Helvetica, sans-serif">FlyAtlas: 
+        the <i>Drosophila</i> adult gene expression atlas</font></h1></td>
+    <td width="150"><a href=http://www.gla.ac.uk/><img src=crest.gif alt="University of Glasgow" width=150 height="50"></a><br>
+     
+      <a href=http://www.bbsrc.ac.uk/><img src=bbsrc.gif alt="Biotechnology &amp; Biological Sciences Research Council" width=150 height="101"></a></td>
+  </tr></table>
+<table width="100%" border="1" cellpadding="2">
+  <tr> 
+    <td><div align="center"><strong><font color="#0033FF" size="1" face="Arial, Helvetica, sans-serif"><a href="atlas.cgi">Home 
+        &amp; Search</a></font></strong></div></td>
+    <td><div align="center"><strong><font color="#0033FF" size="1" face="Arial, Helvetica, sans-serif"><a href="batch_table.cgi">Batch/table 
+        Search</a></font></strong></div></td>
+    <td><div align="center"><strong><font color="#0033FF" size="1" face="Arial, Helvetica, sans-serif"><a href="tissues.cgi">Tissues 
+        Search</a></font></strong></div></td>
+    <td><div align="center"><strong><font color="#0033FF" size="1" face="Arial, Helvetica, sans-serif"><a href="blast.cgi">BLASTP 
+        Search</a></font></strong></div></td>
+    <td><div align="center"><strong><font color="#0033FF" size="1" face="Arial, Helvetica, sans-serif"><a href="about_atlas.html">About 
+        & FAQ</a></font></strong></div></td>
+    <td><div align="center"><strong><font color="#0033FF" size="1" face="Arial, Helvetica, sans-serif"><a href="top50.html">Top 
+        50</a></font></strong></div></td>
+    <td><div align="center"><strong><font color="#0033FF" size="1" face="Arial, Helvetica, sans-serif"><a href="data.html">Original 
+        data</a></font></strong></div></td>
+    <td><div align="center"><strong><font color="#0033FF" size="1" face="Arial, Helvetica, sans-serif"><a href="meta/equation.html">Interesting 
+        meta-analysis</a></font></strong></div></td>
+    <td><div align="center"><strong><font color="#0033FF" size="1" face="Arial, Helvetica, sans-serif"><a href="links.html">Links</a></font></strong></div></td>
+  </tr>
+</table>
+<br>
+<p>&nbsp;</p>
+<h3><font size="-1" face="Arial, Helvetica, sans-serif">The cel files</font></h3>
+<p><font size="-1" face="Arial, Helvetica, sans-serif">The raw Affymetrix array 
+  data files (If you don't know what these are, your bioinformatician will) have 
+  been mounted on <a href="http://www.ncbi.nlm.nih.gov/geo/">Geo</a> , with the 
+  accession number <a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE7763">GSE7763</a>.</font></p>
+<h3><font size="-1" face="Arial, Helvetica, sans-serif">The dataset as a tab-delimited file</font></h3>
+<p><font size="-1" face="Arial, Helvetica, sans-serif">For anything between simple 
+  use and full bioinformatic analysis, I'd suggest downloading the tab-delimited 
+  file of the data and importing it into Excel. You can then sort on multiple 
+  keys, to find the most enriched genes in a particular tissue, or genes that 
+  are unique to nervous tissue, for example. It's big (10 Mb), but you can <a href="20090519all.txt">download 
+  it</a> off this site (use right-click, then &quot;Save target as...&quot;): 
+  use <a href="http://www.gnu.org/software/wget/">wget</a> if your web browser 
+  breaks. But check back often, as we plan to expand it.</font></p>
+<p><font size="-1" face="Arial, Helvetica, sans-serif">The dataset is a tab-separated 
+  file, easily readable by Excel or Perl scripts. The first line gives the column 
+  headings, so it should be easy to understand.</font></p>
+<h3><font size="-1" face="Arial, Helvetica, sans-serif">Making sense of the dataset</font></h3>
+<p><font size="-1" face="Arial, Helvetica, sans-serif">The data are referenced 
+  by probeset name (e.g. 123456_at) in the first field of each line. How do you 
+  get from there to gene names? </font></p>
+<p><font size="-1" face="Arial, Helvetica, sans-serif">First you need to download 
+  the latest Affymetrix annotation file, either from the<a href="http://www.affymetrix.com/support/technical/byproduct.affx?product=fly-20"> 
+  Affymetrix website</a>, or from here: </font></p>
+<p><a href="http://130.209.132.177/atlas/drosophila_2.na28.annot.csv">http://flyatlas.org/drosophila_2.na23.annot.csv</a> 
+  <font size="-1" face="Arial, Helvetica, sans-serif"> (use right-click, then 
+  &quot;Save target as...&quot;)</font></p>
+<p> <font size="-1" face="Arial, Helvetica, sans-serif">The dataset is of the 
+  format:<br>
+  &quot;Probe Set ID&quot;,&quot;GeneChip Array&quot;,&quot;Species Scientific 
+  Name&quot;,&quot;Annotation Date&quot;,&quot;Sequence Type&quot;,&quot;Sequence 
+  Source&quot;,&quot;Transcript ID(Array Design)&quot;,&quot;Target Description&quot;,&quot;Representative 
+  Public ID&quot;,&quot;Archival UniGene Cluster&quot;,&quot;UniGene ID&quot;,&quot;Genome 
+  Version&quot;,&quot;Alignments&quot;,&quot;Gene Title&quot;,&quot;Gene Symbol&quot;,&quot;Chromosomal 
+  Location&quot;,&quot;Unigene Cluster Type&quot;,&quot;Ensembl&quot;,&quot;Entrez 
+  Gene&quot;,&quot;SwissProt&quot;,&quot;EC&quot;,&quot;OMIM&quot;,&quot;RefSeq 
+  Protein ID&quot;,&quot;RefSeq Transcript ID&quot;,&quot;FlyBase&quot;,&quot;AGI&quot;,&quot;WormBase&quot;,&quot;MGI 
+  Name&quot;,&quot;RGD Name&quot;,&quot;SGD accession number&quot;,&quot;Gene 
+  Ontology Biological Process&quot;,&quot;Gene Ontology Cellular Component&quot;,&quot;Gene 
+  Ontology Molecular Function&quot;,&quot;Pathway&quot;,&quot;InterPro&quot;,&quot;Trans 
+  Membrane&quot;,&quot;QTL&quot;,&quot;Annotation Description&quot;,&quot;Annotation 
+  Transcript Cluster&quot;,&quot;Transcript Assignments&quot;,&quot;Annotation 
+  Notes&quot;</font></p>
+<p><font size="-1" face="Arial, Helvetica, sans-serif"><br>
+  Then write a short perl script to read the annotation file, then save the gene 
+  names as an associative array:<br>
+  $annot{$probesetID}=&quot;$flybase $gene_symbol $geneontology&quot;; (or whichever 
+  fields you'll find useful)</font></p>
+<p><font size="-1" face="Arial, Helvetica, sans-serif"><br>
+  Then read the array data, extracting the probeset id from the first field of 
+  each line, and<br>
+  print &quot;$_ \t $annot{$idfield}&quot;;</font></p>
+<p><font size="-1" face="Arial, Helvetica, sans-serif">If Perl isn't one of your skills 
+  (you should try it!), then this link does the work for you:</font></p>
+<p><font size="-1" face="Arial, Helvetica, sans-serif"><a href="http://flyatlas.org/annotator.cgi">http://flyatlas.org/annotator.cgi</a> 
+  (When the data have finished downloading, select all and copy, then Paste Special-> plain text into an excel workbook.)<br>
+  It appends the entire affy probeset annotation to the end of each line of array 
+  data. It'll be a tough workout for Excel, but the data you need WILL be in there!</font><br>
+</p>
+<p><font size="-1" face="Arial, Helvetica, sans-serif">Please <a href="http://dx.doi.org/doi:10.1038/ng2049">cite 
+  us</a> and link back to us, if you present this data elsewhere.</font></p>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/css/dataTables.bootstrap.css">
+        <link rel="stylesheet" href="/css/jquery.rondell.min.css">
+        <link rel="stylesheet" href="/css/bootstrap.css">
+        <link rel="stylesheet" href="/css/std.css">
+        <link rel="shortcut icon" href="/img/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Syncopate">
+
+        <title><%= title %></title>
+    </head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <body>
+        <nav class="navbar navbar-flyatlas">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>                        
+                    </button>
+                    <a class="navbar-brand" href="/home">FlyAtlas+</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/home"> Home </a></li>
+                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Microarray Data&nbsp;<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/microarraydata/genesearch">Gene Search</a></li>
+                                <li><a href="/microarraydata/tissuesearch">Tissue Search</a></li>
+                                <li><a href="/microarraydata/blastp">BLASTP Search</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">RNA-Seq Data&nbsp;<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/rnaseqdata/one">One</a></li>
+                                <li><a href="/rnaseqdata/two">Two</a></li>
+                                <li><a href="/rnaseqdata/three">Three</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">About FlyAtlas+&nbsp;<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/about/credits">Credits</a></li>
+                                <li><a href="/about/datasetinfo">Dataset Information</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/contactus">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <%= content %>
+
+
+        <div class="container">
+            <p style="height:300px">&nbsp;<p>
+        </div>
+
+        <div class = "navbar navbar-flyatlas navbar-fixed-bottom" >
+            <div class= "container">
+                <div class="footer" >&copy; Dow-Davies Lab, 2015</div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="/js/jquery.dataTables.js"></script>
+        <script src="/js/chosen.jquery.js"></script>
+        <script src="/js/jquery.rondell.min.js"></script>
+        <script src="/js/modernizr-2.0.6.min.js"></script>
+        <script src="/js/validator.js"></script>
+        <script src="/js/jquery.validate.js"></script>
+        <script src="/js/additional-methods.min.js"></script>
+        <script src="/js/tooltip.js"></script>
+        <script src="/js/misc.js"></script>
+        <script src="/js/chval.js"></script>
+    
+      
+    </body>
+</html>
+
