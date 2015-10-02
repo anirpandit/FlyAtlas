@@ -1,0 +1,120 @@
+% layout 'default';
+% title "FlyAtlas : Gene Search";
+
+<div class="container">
+    <h1> Gene Search</h1>
+        <h4>For a particular Drosophila gene, find the pattern of expression in different tissues :</h4>
+        
+        <form method = "get" action = "/microarraydata/genesearch">
+            <div class="radio">
+                <label><input type="radio" name="searchtype" value="1">Gene Symbol (e.g. vkg)</label>
+            </div>
+
+            <div class="radio">
+                <label><input type="radio" name="searchtype" value="2">Gene Name (e.g. viking)</label>
+            </div>
+
+            <div class="radio">
+                <label><input type="radio" name="searchtype" value="3">Annotation Symbol (e.g. CG16858)</label>
+            </div>
+
+            <div class="radio">
+                <label><input type="radio" name="searchtype" value="4">FlyBase ID (e.g. FBgn0016075)</label>
+            </div>
+              
+            
+            <div class="form-group">
+                <label for="gene">Gene :</label>
+                <input type="text" class="form-control" id="gene" name="gene" placeholder="Enter search text">
+            </div>
+            
+            <button type="submit" class="formButton btn btn-default">Search&nbsp;<span class="glyphicon glyphicon-question-sign"></span></button>
+            <button type="reset" class="formButton btn btn-default">Clear&nbsp;<span class="glyphicon glyphicon-remove-sign"></span></button>
+        </form>
+</div>
+
+%#If results found, they are displayed below
+
+% if ($gene) {
+ <div class="container">
+ <h1> Search results for: '<%= $gene %>'</h1>
+
+<table border = "1" cellpadding = "3" cellspacing = "3">
+    <thead>
+        <tr>
+            <th> Tissue</th>
+            <th> Adult Abundance </th>
+            <th> Adult Enrichment </th>
+            <th> Larval Abundance </th>
+            <th> Larval Enrichment </th>
+        </tr>
+    </thead>
+    <tbody>
+
+%# First lets get all the initial values out of the arrayref and into an array of its own
+    <% my $gene_name; my (@info_array); %>  
+    <% foreach my $result (@${results}) { %>
+          
+        <% if (scalar @info_array < 5) { %>
+            <% push @info_array, $result->[0]; %>
+            <% push @info_array, $result->[1]; %>
+            <% push @info_array, $result->[2]; %>
+            <% push @info_array, $result->[3]; %>
+            <% push @info_array, $result->[4]; %>
+        <% } %>
+
+
+     <% } %>   
+
+    <div><%= $info_array[0] %></div>
+    <div><%= $info_array[1] %></div>
+    <div><%= $info_array[2] %></div>
+    <div><%= $info_array[3] %></div>
+    <div><%= $info_array[4] %></div>
+
+    <% foreach my $result (@{$results}) { %>
+
+        <% my $tissue = $result->[5]; %>
+        <% my $value2 = $result->[6]; %>
+        <% my $value3 = $result->[7]; %>
+        <% my $value4 = roundup($result->[8]); %>
+        <% my $value5 = roundup($result->[9]); %>
+        <% my $value6 = $result->[10]; %>
+        <% my $value7 = $result->[11]; %>
+        <% my $value8 = $result->[12]; %>
+
+        % #IF $value6 is zero then change $abundance to ND#
+
+        <tr>
+            <td><%= $tissue %></td>
+            <td><%= $value2 %></td>
+            <td><%= $value3 %></td>
+
+            <% if ($value6 != 0) { %>
+                <% if ($value6 < 4 ) { %>
+                    <td>  <%= $value4 %> &plusmn; <%= $value5 %> <a href="#" data-toggle="tooltip" title="Detected in <%= $value6 %> out of 4 array(s)"><span class="glyphicon glyphicon-flag"></span> </a> </td>
+                    <td>  <%= $value7 %> <a href="#" data-toggle="tooltip" title="Detected in <%= $value6 %> out of 4 array(s)"><span class="glyphicon glyphicon-flag"></span> </a> </td>
+                <% } else { %>
+                    <td><%= $value4 %> &plusmn; <%= $value5 %></td>
+                    <td><%= $value7 %></td>
+                <% } %>
+                
+            <% } else { %>
+                <td> ND </td>
+                <td> ND </td>
+            <% } %>
+            
+            <td><%= $value7 %></td>
+            <td><%= $value8 %></td>
+        </tr>
+    <% } %> 
+        
+    </tbody>
+</table>   
+</div>
+
+% }
+
+<% sub roundup { my $n = shift; return (($n == int($n)) ? $n : int($n + 0.5))} %>
+
+

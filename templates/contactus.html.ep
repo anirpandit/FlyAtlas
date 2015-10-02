@@ -1,0 +1,17 @@
+% layout 'jumbo';
+% title 'FlyAtlas+: the Drosophila expression atlas';
+
+<div class="container">
+  <h1>Contact Us</h1>
+
+  <div class="row">
+    <div class="col-md-12">
+
+        <p>If you would like more information or have a query, please get in touch with <a href="http://www.gla.ac.uk/researchinstitutes/biology/staff/juliandow/" target="_blank" class="btn btn-one round"><span class="glyphicon glyphicon-link"></span> Prof. Julian Dow</a></p>
+ 
+    </div>
+  </div>
+
+</div>
+
+
