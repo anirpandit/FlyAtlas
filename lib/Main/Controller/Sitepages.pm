@@ -12,7 +12,7 @@ sub go_home {
 sub get_contact {
     
     my $self = shift;
-    $self->render('/contact');
+    $self->render('/contactus');
 }
 
 1;

@@ -34,16 +34,14 @@ sub startup {
 	$r -> get('/home') -> to(controller => 'sitepages', action => 'go_home');
 
 
-   	$r -> get('/microarraydata/genesearch') -> to(controller => 'microarraydata', action => 'do_genesearch');
+   	$r -> get('/microarraydata/genesearch') -> to(controller => 'genesearch', action => 'do_genesearch');
     $r -> get('/microarraydata/tissuesearch') -> to(controller => 'microarraydata', action => 'do_tissuesearch');
     $r -> get('/microarraydata/blastp') -> to(controller => 'microarraydata', action => 'do_blastp');
     
     $r -> get('/about/credits') -> to(controller => 'about', action => 'get_credits');
     $r -> get('/about/datasetinfo') -> to(controller => 'about', action => 'get_datasetinfo');
-    $r -> get('/about/FAQ') -> to(controller => 'about', action => 'get_faq');
-    $r -> get('/about/originaldata') -> to(controller => 'about', action => 'get_originaldata');
 
-    $r -> get('/contact') -> to(controller => 'sitepages', action => 'get_contact');
+    $r -> get('/contactus') -> to(controller => 'sitepages', action => 'get_contact');
 
     #Login Routes#
     $r->get('/login')->to('login#login')->name('login');
