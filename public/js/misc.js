@@ -85,3 +85,22 @@ $(function() {
       preset: "thumbGallery"
     });
 });
+
+
+//For validation of the search form radio buttons//
+    $( "#genesearchform" ).validate({
+      errorPlacement: function(error, element) {
+        if (element.attr("id") == "geneopt1") {
+          error.insertBefore("#error");
+        }
+      }
+    });
+
+    $.validator.addMethod("require_from_group", $.validator.methods.require_from_group, 'Please select at least one of the following options');
+
+    $.validator.addClassRules("searchformval", {
+        require_from_group: [1, ".searchformval"]
+    });
+
+
+
