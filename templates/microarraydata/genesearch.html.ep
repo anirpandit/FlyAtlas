@@ -29,9 +29,11 @@
                     </h4>
                 </div>
 
-                <div class="panel-body">
-                    
-                    <table border = "1" cellpadding = "3" cellspacing = "3">
+
+                <div class="table-responsive">
+                    <div class="panel-body">
+                        <table class="table table-hover">
+                
                         <thead>
                             <tr>
                                 <th> Tissue</th>
@@ -64,41 +66,76 @@
                             <div><%= $info_array[3] %></div>
                             <div><%= $info_array[4] %></div>
 
+                            <% my $checktissue = 0; my $checknametissue = '' ; %>
+
                             <% foreach my $result (@{$results}) { %>
 
-                                <% my $tissue = $result->[5]; %>
-                                <% my $value2 = $result->[6]; %>
-                                <% my $value3 = $result->[7]; %>
-                                <% my $value4 = roundup($result->[8]); %>
-                                <% my $value5 = roundup($result->[9]); %>
-                                <% my $value6 = $result->[10]; %>
-                                <% my $value7 = $result->[11]; %>
-                                <% my $value8 = $result->[12]; %>
+                                <% my $UniTissue = $result->[5]; %>
+                                <% my $FlyID = $result->[6]; %>
+                                <% my $SignifChange = $result->[7]; %>
+                                <% my $Abundance = roundup($result->[8]); %>
+                                <% my $AbundanceSE = roundup($result->[9]); %>
+                                <% my $SignalDetected = $result->[10]; %>
+                                <% my $Enrichment = $result->[11]; %>
+                                <% my $ProbeDegeneracy = $result->[12]; %>
 
-                                % #IF $value6 is zero then change $abundance to ND#
+                                <% my ($bkcell,$textcell)=getAbunCol($Abundance) ;%>
 
-                                <tr>
-                                    <td><%= $tissue %></td>
-                                    <td><%= $value2 %></td>
-                                    <td><%= $value3 %></td>
+                                <% #IF $SignalDetected is zero then change $Abundance to ND#
+                                <% if ($checknametissue ne $UniTissue){ %>
 
-                                    <% if ($value6 != 0) { %>
-                                        <% if ($value6 < 4 ) { %>
-                                            <td>  <%= $value4 %> &plusmn; <%= $value5 %> <a href="#" data-toggle="tooltip" title="Detected in <%= $value6 %> out of 4 array(s)"><span class="glyphicon glyphicon-flag"></span> </a> </td>
-                                            <td>  <%= $value7 %> <a href="#" data-toggle="tooltip" title="Detected in <%= $value6 %> out of 4 array(s)"><span class="glyphicon glyphicon-flag"></span> </a> </td>
-                                        <% } else { %>
-                                            <td><%= $value4 %> &plusmn; <%= $value5 %></td>
-                                            <td><%= $value7 %></td>
-                                        <% } %>
+                                    <tr>
+                                        <td style="background:white"><%= $UniTissue %></td>
+
+                                       <% #IF flyID is odd then show Adult abundance and enrichment else nbsp;# 
                                         
-                                    <% } else { %>
-                                        <td> ND </td>
-                                        <td> ND </td>
-                                    <% } %>
-                                    
-                                    <td><%= $value7 %></td>
-                                    <td><%= $value8 %></td>
+                                        <% if ($FlyID % 2 == 1){
+                                            
+                                            <% if ($SignalDetected != 0) { %>
+                                                <% if ($SignalDetected < 4 ) { %>
+                                                        
+                                                        <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>">  <%= $Abundance %> &plusmn; <%= $AbundanceSE %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                                        <td>  <%= $Enrichment %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                                <% } else { %>
+                                                        <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>"><%= $Abundance %> &plusmn; <%= $AbundanceSE %></td>
+                                                        <td><%= $Enrichment %></td>
+                                                    <% } %>
+                                                
+                                                <% } else { %>
+                                                    <td> ND </td>
+                                                    <td> ND </td>
+                                                <% } %>
+
+                                                <% $checknametissue = $UniTissue; %>
+                                        <% } else { %>
+                                            <td> &nbsp; </td>
+                                            <td> &nbsp; </td>
+
+                                        <% } %>
+
+                                <% } %>
+                                      
+                                <% if ($FlyID % 2 == 0){ %>
+                                    <% if ($SignalDetected != 0) { %>
+                                        <% if ($SignalDetected < 4 ) { %>
+                                                <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>">  <%= $Abundance %> &plusmn; <%= $AbundanceSE %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                                <td>  <%= $Enrichment %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                        <% } else { %>
+                                                <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>"><%= $Abundance %> &plusmn; <%= $AbundanceSE %></td>
+                                                <td><%= $Enrichment %></td>
+                                            <% } %>
+                                        
+                                        <% } else { %>
+                                            <td> ND </td>
+                                            <td> ND </td>
+                                        <% } %>
+
+                                        <% $checknametissue = $checknametissue; %>
+                                <% } 
+
+
                                 </tr>
+
                             <% } %> 
                                 
                         </tbody>
@@ -166,5 +203,16 @@
 </div>
 
 <% sub roundup { my $n = shift; return (($n == int($n)) ? $n : int($n + 0.5))} %>
+
+<% sub getAbunCol { %>
+<% my $Abundance = shift;  my $logVal = log($Abundance)/log(2);  my $red = roundup(255 - ($logVal * 255) / 15); if ($red > 255) {$red = 255; } my $green = $red; my $blue = $red; my $bkcell = "rgb($red,$green,$blue)"; %> 
+<% my $textcell = "#FFFFFF" ; if($Abundance < 200){$textcell = "#000000"}%>
+<% return ($bkcell,$textcell) ; } %>
+
+
+<% sub getEnrichCol { %>
+<% my $Abundance = shift;  my $logVal = log($Abundance)/log(2);  my $red = roundup(255 - ($logVal * 255) / 15); if ($red > 255) {$red = 255; } my $green = $red; my $blue = $red; my $bkcell = "rgb($red,$green,$blue)"; %> 
+<% my $textcell = "#FFFFFF" ; if($Abundance < 200){$textcell = "#000000"}%>
+<% return ($bkcell,$textcell) ; } %>
 
 

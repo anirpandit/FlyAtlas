@@ -144,6 +144,28 @@ table.dataTable th {
   color: #ffffff;
 }
 
+
+table {
+
+text-align: center;
+}
+
+thead {
+  background: #F3843E;
+  color: #ffffff;
+}
+
+th {
+    text-align: center;
+}
+
+
+.panel-default > .panel-heading {
+  color: #ffffff;
+  background-color: #f3843e;
+  border-color: #dddddd;
+}
+
 /* old */
 
 

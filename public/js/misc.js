@@ -96,7 +96,7 @@ $(function() {
       }
     });
 
-    $.validator.addMethod("require_from_group", $.validator.methods.require_from_group, 'Please select at least one of the following options');
+    $.validator.addMethod("require_from_group", $.validator.methods.require_from_group, 'Please select at least one of the following options: ');
 
     $.validator.addClassRules("searchformval", {
         require_from_group: [1, ".searchformval"]

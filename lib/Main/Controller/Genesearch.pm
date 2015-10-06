@@ -88,7 +88,6 @@ sub do_genesearch {
     
     $self->stash(
         gene => $gene,
-        query => $query,
         results => $sth->fetchall_arrayref
     );
     
