@@ -102,5 +102,7 @@ $(function() {
         require_from_group: [1, ".searchformval"]
     });
 
-
-
+		$(function()
+		{
+			$(".popupwindow").popupwindow();
+		});
