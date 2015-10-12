@@ -8,6 +8,7 @@ sub do_genesearch {
 
     my $self = shift;
     my $gene = $self->param('gene');
+
     my $searchtype= $self->param('searchtype');
 
     #Gene Search Form Queries#
@@ -42,7 +43,7 @@ sub do_genesearch {
             WHERE Gene.FBgn = Probeset.FBgn
             AND Probeset.ProbesetID = Experiment.ProbesetID
             AND FlyAnat.FlyID = Experiment.FlyID
-            AND (Gene.Name = ? ) 
+            AND Gene.Name = ? 
             ORDER BY Probeset.FBgn, Experiment.ProbesetID, Experiment.FlyID
         );
     }
@@ -80,7 +81,8 @@ sub do_genesearch {
             ORDER BY Probeset.FBgn, Experiment.ProbesetID, Experiment.FlyID
         );
     }
-    
+
+   
     my $dbh = $self->app->dbh;
     my $sth = $dbh->prepare($query);
     
@@ -94,5 +96,12 @@ sub do_genesearch {
     $self->render('/microarraydata/genesearch');
 };
 
+sub get_extlinks{
 
+    my $self = shift;
+    
+    # We might want to param the FlyBaseID here ##
+
+    $self->render('/microarraydata/externallinks');   
+}
 1;

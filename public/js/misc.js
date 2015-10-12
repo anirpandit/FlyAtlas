@@ -1,10 +1,9 @@
-//Modal for delete//
-        $('#confirm-delete').on('show.bs.modal', function(e) {
-            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-        });
-
+       
 //For message alerts at top of page//
 $(document).ready(function() {
+
+	//Tooltip Jquery//
+	$('[data-toggle="tooltip"]').tooltip(); 
 
 	$(".alert").delay(4000).slideUp(200, function() {
     	$(this).alert('close');
@@ -101,8 +100,3 @@ $(function() {
     $.validator.addClassRules("searchformval", {
         require_from_group: [1, ".searchformval"]
     });
-
-		$(function()
-		{
-			$(".popupwindow").popupwindow();
-		});

@@ -9,6 +9,7 @@
 %   my $SearchFormTitle = "Perform a Search";
 
 
+
 %#If results found, they are displayed below
 
 
@@ -50,6 +51,11 @@
 
 
                  <% } %>   
+
+
+                 % my ($elmodal)=Subs::ext_links_modal($info_array[3],$info_array[2]);
+                <div class="container"><%== $elmodal %></div>
+                
                 <div class="panel-body">
                     <div class="table-responsive">
                         <table class="table">
@@ -70,7 +76,8 @@
                                     <td><%= $info_array[2] %></td>
                                     <td><%= $info_array[3] %></td>
                                     <td><%= $info_array[4] %></td>
-                                    <td><a href="#" target="_blank" class="btn btn-one round" ><span class="glyphicon glyphicon-link"></span> Click Here</a></td>
+
+                                    <td><a href="#ext_links" class="btn btn-one round" data-toggle="modal" ><span class="glyphicon glyphicon-link"></span> Click Here</a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -179,7 +186,7 @@
         <div class="col-md-12" id="newsearch"><h3>New Search</h3></div>
         <div class="col-md-12" style="padding-bottom:5px">The following form is used for searching the database. </div>
     </div>
-<a href="http://www.ripsdomain.com?popupwindow" class="popupwindow">Example 1</a>
+
     <div class="panel-group" id="accordion">
         <div class="panel panel-default"> 
             <div class="panel-heading">

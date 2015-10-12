@@ -176,6 +176,23 @@ td {
   border-color: #dddddd;
 }
 
+
+/* Modal settings */
+.modal-header {
+  color: #ffffff;
+  background-color: #f3843e;
+  border-color: #dddddd;
+}
+
+.table-extl {
+  text-align: left;
+  font-size: smaller;
+}
+
+.btn-extl{
+  font-size: smaller;
+  width: 75px;
+}
 /* old */
 
 

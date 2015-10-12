@@ -35,6 +35,7 @@ sub startup {
 
 
    	$r -> get('/microarraydata/genesearch') -> to(controller => 'genesearch', action => 'do_genesearch');
+        $r -> get('/microarraydata/externallinks') -> to(controller => 'genesearch', action => 'get_extlinks');
     $r -> get('/microarraydata/tissuesearch') -> to(controller => 'microarraydata', action => 'do_tissuesearch');
     $r -> get('/microarraydata/blastp') -> to(controller => 'microarraydata', action => 'do_blastp');
     
