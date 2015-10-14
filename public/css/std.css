@@ -329,6 +329,52 @@ td {
   font-weight: bold;
 }
 
+
+/* Tab style */
+#scrollUp {
+  bottom: 0;
+  right: 30px;
+  width: 70px;
+  height: 90px;
+  margin-bottom: -10px;
+  padding: 10px 5px;
+  font: 14px/20px sans-serif;
+  text-align: center;
+  text-decoration: none;
+  color: #fff !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+
+  -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  background-color: #E6E6E6;
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#ff8928), to(#c15700));
+  background-image: -moz-linear-gradient(top, #ff8928, #c15700);
+  background-image: -ms-linear-gradient(top, #ff8928, #c15700);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff8928), color-stop(100%, #c15700));
+  background-image: -webkit-linear-gradient(top, #ff8928, #c15700);
+  background-image: -o-linear-gradient(top, #ff8928, #c15700);
+  background-image: linear-gradient(#ff8928, #c15700);
+  background-repeat: repeat-x;
+  -webkit-transition: margin-bottom 150ms linear;
+  -moz-transition: margin-bottom 150ms linear;
+  -o-transition: margin-bottom 150ms linear;
+  transition: margin-bottom 150ms linear;
+
+
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+#scrollUp:hover {
+    margin-bottom: 0;
+}
+
 /*Carousel ???*/
 
 .cssload-loader {

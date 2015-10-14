@@ -2,6 +2,9 @@
 package Main::Controller::Genesearch;
 use Mojo::Base 'Mojolicious::Controller';
 
+require Exporter;
+  my @ISA = qw(Exporter);
+
 
 #Gene Search Form route#
 sub do_genesearch {
@@ -16,69 +19,33 @@ sub do_genesearch {
 
     if($searchtype == 1){
         $query = q(
-            SELECT DISTINCT Gene.Name, Gene.Symbol, 
-            Gene.CGNum, Gene.FBgn, Experiment.ProbesetID, 
-            FlyAnat.UniTissue,Experiment.FlyID,
-            Experiment.SignifChange, Experiment.Abundance, Experiment.AbundanceSE,
-            Experiment.SignalDetected, Experiment.Enrichment, 
-            Probeset.ProbeDegeneracy
-            FROM Experiment, Probeset, Gene, FlyAnat
-            WHERE Gene.FBgn = Probeset.FBgn
-            AND Probeset.ProbesetID = Experiment.ProbesetID
-            AND FlyAnat.FlyID = Experiment.FlyID
-            AND (Gene.Symbol = BINARY ?)
-            ORDER BY Probeset.FBgn, Experiment.ProbesetID, Experiment.FlyID 
+            SELECT DISTINCT Gene.FBgn 
+            FROM Gene
+            WHERE Gene.Name = ? 
         );
     }
 
     elsif($searchtype == 2){
         $query = q(
-            SELECT DISTINCT Gene.Name, Gene.Symbol, 
-            Gene.CGNum, Gene.FBgn, Experiment.ProbesetID, 
-            FlyAnat.UniTissue,Experiment.FlyID,
-            Experiment.SignifChange, Experiment.Abundance, Experiment.AbundanceSE,
-            Experiment.SignalDetected, Experiment.Enrichment, 
-            Probeset.ProbeDegeneracy
-            FROM Experiment, Probeset, Gene, FlyAnat
-            WHERE Gene.FBgn = Probeset.FBgn
-            AND Probeset.ProbesetID = Experiment.ProbesetID
-            AND FlyAnat.FlyID = Experiment.FlyID
-            AND Gene.Name = ? 
-            ORDER BY Probeset.FBgn, Experiment.ProbesetID, Experiment.FlyID
+            SELECT DISTINCT Gene.FBgn 
+            FROM Gene
+            WHERE Gene.Symbol = ? 
         );
     }
 
     elsif($searchtype == 3){
         $query = q(
-            SELECT DISTINCT Gene.Name, Gene.Symbol, 
-            Gene.CGNum, Gene.FBgn, Experiment.ProbesetID, 
-            FlyAnat.UniTissue,Experiment.FlyID,
-            Experiment.SignifChange, Experiment.Abundance, Experiment.AbundanceSE,
-            Experiment.SignalDetected, Experiment.Enrichment, 
-            Probeset.ProbeDegeneracy
-            FROM Experiment, Probeset, Gene, FlyAnat
-            WHERE Gene.FBgn = Probeset.FBgn
-            AND Probeset.ProbesetID = Experiment.ProbesetID
-            AND FlyAnat.FlyID = Experiment.FlyID
-            AND Gene.CGNum = ?
-            ORDER BY Probeset.FBgn, Experiment.ProbesetID, Experiment.FlyID
+            SELECT DISTINCT Gene.FBgn 
+            FROM Gene
+            WHERE Gene.CGNum = ?
         );
     }
 
     else{
         $query = q(
-            SELECT DISTINCT Gene.Name, Gene.Symbol, 
-            Gene.CGNum, Gene.FBgn, Experiment.ProbesetID, 
-            FlyAnat.UniTissue,Experiment.FlyID,
-            Experiment.SignifChange, Experiment.Abundance, Experiment.AbundanceSE,
-            Experiment.SignalDetected, Experiment.Enrichment, 
-            Probeset.ProbeDegeneracy
-            FROM Experiment, Probeset, Gene, FlyAnat
-            WHERE Gene.FBgn = Probeset.FBgn
-            AND Probeset.ProbesetID = Experiment.ProbesetID
-            AND FlyAnat.FlyID = Experiment.FlyID
-            AND Gene.FBgn = ?
-            ORDER BY Probeset.FBgn, Experiment.ProbesetID, Experiment.FlyID
+            SELECT DISTINCT Gene.FBgn 
+            FROM Gene
+            WHERE Gene.FBgn = ?
         );
     }
 
@@ -96,12 +63,28 @@ sub do_genesearch {
     $self->render('/microarraydata/genesearch');
 };
 
-sub get_extlinks{
-
-    my $self = shift;
+sub headervalues{
     
-    # We might want to param the FlyBaseID here ##
+    my $self = shift;
+    my $FBgn = shift;
 
-    $self->render('/microarraydata/externallinks');   
+    my $query = q(
+            SELECT DISTINCT Gene.Name, Gene.Symbol, 
+            Gene.CGNum, Gene.FBgn, Experiment.ProbesetID, 
+            FROM Experiment, Probeset, Gene, FlyAnat
+            WHERE Gene.FBgn = Probeset.FBgn
+            AND Probeset.ProbesetID = Experiment.ProbesetID
+            AND Gene.FBgn = ? 
+        );
+
+
+    my $dbh = $self->app->dbh;
+    my $sth = $dbh->prepare($query);
+    
+    $sth->execute($FBgn);
+
+    my @headervalues=$sth->fetchall_arrayref;
+
+    return @headervalues;
 }
 1;

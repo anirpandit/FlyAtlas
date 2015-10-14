@@ -1,0 +1,241 @@
+% layout 'default';
+% title "FlyAtlas : Gene Search";
+
+% use Subs qw(Subs::roundup);
+% use Subs qw(Subs::getAbunCol);
+% use Subs qw(Subs::getEnrichCol);
+
+%   my $collapseopt = "in";
+%   my $SearchFormTitle = "Perform a Search";
+
+
+
+% #If results found, they are displayed below
+
+
+
+% if ($gene) {
+
+    <div class="container">
+    <h1>Gene Search</h1>
+
+    <div class="row">
+        <div class="col-md-12"><h3>Your search results are displayed below</h3></div>
+        <div class="col-md-6" style="text-align:left;padding-bottom:5px">Here are the results from your search. You may also start a new search using the Start New Search button. Results are displayed in a tabular format with links to External sites listed separately.</div>
+        <div class="col-md-6" style="text-align:right;padding-bottom:5px;padding-top:10px"><a href="#newsearch" class="btn btn-one" id="top"><span class="glyphicon glyphicon-search"></span>&nbsp;Start New Search </a></div>
+    </div>
+
+</div>
+
+ <div class="container">
+        <div class="panel panel-default"> 
+
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion2" href="#collapse"><span class="glyphicon glyphicon-search"></span>&nbsp;Search Results:</a>
+                    </h4>
+                </div>
+
+
+                %# First lets get all the initial values out of the arrayref and into an array of its own
+                <% my $gene_name; my (@info_array); %>  
+                <% foreach my $result (@${results}) { %>
+
+                    % use Data::Dumper;
+                      
+                    % print Dumper($result);
+
+                    <% if (scalar @info_array < 5) { %>
+                        <% push @info_array, $result->[0]; %>
+                        <% push @info_array, $result->[1]; %>
+                        <% push @info_array, $result->[2]; %>
+                        <% push @info_array, $result->[3]; %>
+                        <% push @info_array, $result->[4]; %>
+                    <% } %>
+
+
+                 <% } %>   
+
+
+                % my ($elmodal)=Subs::ext_links_modal($info_array[3],$info_array[2]);
+                <div class="container"><%== $elmodal %></div>
+                
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th> Gene Name</th>
+                                    <th> Gene Symbol</th>
+                                    <th> Annotation Symbol</th>
+                                    <th> FlyBase ID</th>
+                                    <th> ProbeSet ID</th>
+                                    <th> External Links</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><%= $info_array[0] %></td>
+                                    <td><%= $info_array[1] %></td>
+                                    <td><%= $info_array[2] %></td>
+                                    <td><%= $info_array[3] %></td>
+                                    <td><%= $info_array[4] %></td>
+
+                                    <td><a href="#ext_links" class="btn btn-one round" data-toggle="modal" ><span class="glyphicon glyphicon-link"></span> Click Here</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                    
+                                <thead>
+                                    <tr>
+                                        <th> Tissue</th>
+                                        <th> Adult Abundance </th>
+                                        <th> Adult Enrichment </th>
+                                        <th> Larval Abundance </th>
+                                        <th> Larval Enrichment </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                <% my $checktissue = 0; my $checknametissue = '' ; %>
+
+                                <% foreach my $result (@{$results}) { %>
+
+                                    <% my $UniTissue = $result->[5]; %>
+                                    <% my $FlyID = $result->[6]; %>
+                                    <% my $SignifChange = $result->[7]; %>
+                                    <% my $Abundance = Subs::roundup($result->[8]); %>
+                                    <% my $AbundanceSE = Subs::roundup($result->[9]); %>
+                                    <% my $SignalDetected = $result->[10]; %>
+                                    <% my $Enrichment = $result->[11]; %>
+                                    <% my $ProbeDegeneracy = $result->[12]; %>
+
+                                    <% my ($bkcell,$textcell)=Subs::getAbunCol($Abundance) ;%>
+                                    <% my ($bkcelle,$textcelle)=Subs::getEnrichCol($Enrichment) ;%>
+
+                                    <% #IF $SignalDetected is zero then change $Abundance to ND#
+                                    <% if ($checknametissue ne $UniTissue){ %>
+
+                                        <tr>
+                                            <td style="background:white"><%= $UniTissue %></td>
+
+                                           <% #IF flyID is odd then show Adult abundance and enrichment else nbsp;# 
+                                            
+                                            <% if ($FlyID % 2 == 1){
+                                                
+                                                <% if ($SignalDetected != 0) { %>
+                                                    <% if ($SignalDetected < 4 ) { %>
+                                                            
+                                                            <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>">  <%= $Abundance %> &plusmn; <%= $AbundanceSE %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                                            <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %>">  <%= $Enrichment %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                                    <% } else { %>
+                                                            <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>"><%= $Abundance %> &plusmn; <%= $AbundanceSE %></td>
+                                                            <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %>"><%= $Enrichment %></td>
+                                                        <% } %>
+                                                    
+                                                    <% } else { %>
+                                                        <td style="background:white"> ND </td>
+                                                        <td style="background:white"> ND </td>
+                                                    <% } %>
+
+                                                    <% $checknametissue = $UniTissue; %>
+                                            <% } else { %>
+                                                <td> &nbsp; </td>
+                                                <td> &nbsp; </td>
+
+                                            <% } %>
+
+                                    <% } %>
+                                          
+                                    <% if ($FlyID % 2 == 0){ %>
+                                        <% if ($SignalDetected != 0) { %>
+                                            <% if ($SignalDetected < 4 ) { %>
+                                                    <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>">  <%= $Abundance %> &plusmn; <%= $AbundanceSE %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                                    <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %> class = "tdlastcol">  <%= $Enrichment %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                            <% } else { %>
+                                                    <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>"><%= $Abundance %> &plusmn; <%= $AbundanceSE %></td>
+                                                    <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %>" class = "tdlastcol"><%= $Enrichment %></td>
+                                                <% } %>
+                                            
+                                            <% } else { %>
+                                                <td style="background:white"> ND </td>
+                                                <td style="background:white" class = "tdlastcol"> ND </td>
+                                            <% } %>
+
+                                            <% $checknametissue = $checknametissue; %>
+                                    <% } 
+
+
+                                    </tr>
+
+                                <% } %> 
+                                    
+                            </tbody>
+                        </table>   
+                </div>
+            </div>
+        </div>
+    </div>
+
+% }
+
+<div class="container">
+<% if (!$gene){ %> <h1>Gene Search</h1> <% } %>
+    
+    <div class="row">
+        <div class="col-md-12" id="newsearch"><h3>New Search</h3></div>
+        <div class="col-md-12" style="padding-bottom:5px">The following form is used for searching the database. </div>
+    </div>
+
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default"> 
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1"><span class="glyphicon glyphicon-edit"></span>&nbsp;<%= $SearchFormTitle %></a>
+                </h4>
+            </div>
+            
+            <div id="collapse1" class="panel-collapse collapse <%= $collapseopt %>">
+                <div class="panel-body">
+                    <form method = "get" action = "/microarraydata/genesearch" data-toggle="validator" id="genesearchform" class="validate">
+                        
+                        <input type="hidden" name"error" id="error">
+                        <div class="radio">
+                            <label><input type="radio" name="searchtype" id="geneopt1" class="searchformval" value="1">Gene Symbol (e.g. vkg)</label>
+                        </div>
+
+                        <div class="radio">
+                            <label><input type="radio" name="searchtype" id="geneopt2" class="searchformval" value="2">Gene Name (e.g. viking)</label>
+                        </div>
+
+                        <div class="radio">
+                            <label><input type="radio" name="searchtype" id="geneopt3" class="searchformval" value="3">Annotation Symbol (e.g. CG16858)</label>
+                        </div>
+
+                        <div class="radio">
+                            <label><input type="radio" name="searchtype" id="geneopt4" class="searchformval" value="4">FlyBase ID (e.g. FBgn0016075)</label>
+                        </div>
+                          
+                        <div class="help-block with-errors alert-message"></div> 
+
+                        <div class="form-group has-feedback">
+                            <label for="gene">Gene :</label>
+                            <input type="text" class="form-control" id="gene" name="gene" placeholder="Enter search text" data-error="Please enter text for search" required>
+                            <div class="help-block with-errors alert-message"></div>  
+                        </div>
+                        
+                        
+                        <button type="submit" class="formButton btn btn-default">Search&nbsp;<span class="glyphicon glyphicon-question-sign"></span></button>
+                        <button type="reset" class="formButton btn btn-default">Clear&nbsp;<span class="glyphicon glyphicon-remove-sign"></span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

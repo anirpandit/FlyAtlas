@@ -71,11 +71,12 @@ sub getEnrichCol {
 
 sub ext_links_modal{
 
-    my $FBID= shift;
-    my $CGID= shift;
+    my $FBID = shift;
+    my $CGID = shift;
+    my $PBID = shift;
     
-    $elmodal=qq~
-    <div class="modal" id="ext_links">
+    my $elmodal=qq~
+    <div class="modal" id="ext_links_$PBID">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -99,11 +100,11 @@ sub ext_links_modal{
                                 <td><strong>FlyBase</strong>: The Database for Drosophila genetics and molecular biology</td>
                             </tr>
                             <tr>
-                                <td><a href="http://www.flymine.org/query/portal.do?origin=flybase&class=gene&externalid=$FBID" target="_blank" class="btn btn-one round btn-extl"><span class="glyphicon glyphicon-link"></span> FlyMine</a></td>
+                                <td><a href="http://www.flymine.org/query/portal.do?origin=flybase&amp;class=gene&amp;externalid=$FBID" target="_blank" class="btn btn-one round btn-extl"><span class="glyphicon glyphicon-link"></span> FlyMine</a></td>
                                 <td><strong>FlyMine</strong>: An integrated database for Drosophila and Anopheles genomics</td>
                             </tr>
                             <tr>
-                                <td><a href="http://insitu.fruitfly.org/cgi-bin/ex/search.pl?ftype=2&ftext=$FBID" target="_blank" class="btn btn-one round btn-extl"><span class="glyphicon glyphicon-link"></span> BDGP</a></td>
+                                <td><a href="http://insitu.fruitfly.org/cgi-bin/ex/search.pl?ftype=2&amp;ftext=$FBID" target="_blank" class="btn btn-one round btn-extl"><span class="glyphicon glyphicon-link"></span> BDGP</a></td>
                                 <td><strong>BDGP</strong>: Berkley <em>Drosophila</em> gene project (Patterns of gene expression in embryogenesis)</td>
                             </tr>
                             <tr>
@@ -136,5 +137,4 @@ sub ext_links_modal{
     
     return ($elmodal);
 }
-
 1;
