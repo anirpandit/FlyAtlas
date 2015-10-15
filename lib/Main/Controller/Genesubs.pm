@@ -5,8 +5,10 @@ use Main;
 require Exporter;
   my @ISA = qw(Exporter);
 
-sub headervalues{
 
+    my $dbh = DBI->connect('DBI:mysql:FlyAtlasDB:127.0.0.1:3306','root','spider') or die "Could not connect";
+
+sub headervalues{
 
     my $FBgn = shift;
 
@@ -18,17 +20,13 @@ sub headervalues{
             AND Gene.FBgn = ?
         );
 
-
-
-    my $dbh = DBI->connect('DBI:mysql:FlyAtlasDB:127.0.0.1:3306','root','spider') or die "Could not connect";
-
     my $sth = $dbh->prepare($query);
     
     $sth->execute($FBgn);
 
     my $headervalues = $sth->fetchall_arrayref;
 
-    return $headervalues;
+    return ($headervalues);
 }
 
 sub getgenedata{
@@ -49,8 +47,6 @@ sub getgenedata{
             AND (Gene.FBgn = ? AND Probeset.ProbesetID = ?)
             ORDER BY Probeset.FBgn, Experiment.ProbesetID, Experiment.FlyID 
         );
-
-    my $dbh = DBI->connect('DBI:mysql:FlyAtlasDB:127.0.0.1:3306','root','spider') or die "Could not connect";
 
     my $sth = $dbh->prepare($query);
     

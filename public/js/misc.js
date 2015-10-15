@@ -127,4 +127,31 @@ $(function() {
 
 
 
+/* For Accordion expand all*/
+var headers = $('#accordion .accordion-header');
+var contentAreas = $('#accordion .ui-accordion-content ').hide()
+.first().show().end();
+var expandLink = $('.accordion-expand-all');
 
+// add the accordion functionality
+headers.click(function() {
+    // close all panels
+    contentAreas.slideUp();
+    // open the appropriate panel
+    $(this).next().slideDown();
+    // reset Expand all button
+    expandLink.text('Expand all')
+        .data('isAllOpen', false);
+    // stop page scroll
+    return false;
+});
+
+// hook up the expand/collapse all
+expandLink.click(function(){
+    var isAllOpen = !$(this).data('isAllOpen');
+    console.log({isAllOpen: isAllOpen, contentAreas: contentAreas})
+    contentAreas[isAllOpen? 'slideDown': 'slideUp']();
+    
+    expandLink.text(isAllOpen? 'Collapse All': 'Expand all')
+                .data('isAllOpen', isAllOpen);    
+});

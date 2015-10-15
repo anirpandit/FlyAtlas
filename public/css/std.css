@@ -193,6 +193,24 @@ td {
   font-size: smaller;
   width: 75px;
 }
+
+a.my-tool-tip, a.my-tool-tip:hover, a.my-tool-tip:visited {
+
+    color: white;
+}
+
+
+.accordion-expand-holder {
+    text-align: left;
+    padding: 10px;
+}
+
+.accordion-header{
+  background: #f3843e;
+  border-radius: 4px;
+  padding: 5px;
+  color: #ffffff;
+}
 /* old */
 
 

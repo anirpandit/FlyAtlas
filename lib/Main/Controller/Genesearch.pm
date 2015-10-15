@@ -17,7 +17,7 @@ sub do_genesearch {
     #Gene Search Form Queries#
     my ($query);
 
-    if($searchtype == 1){
+    if(defined $searchtype == 1){
         $query = q(
             SELECT DISTINCT Gene.FBgn 
             FROM Gene
@@ -25,7 +25,7 @@ sub do_genesearch {
         );
     }
 
-    elsif($searchtype == 2){
+    elsif(defined $searchtype == 2){
         $query = q(
             SELECT DISTINCT Gene.FBgn 
             FROM Gene
@@ -33,7 +33,7 @@ sub do_genesearch {
         );
     }
 
-    elsif($searchtype == 3){
+    elsif(defined $searchtype == 3){
         $query = q(
             SELECT DISTINCT Gene.FBgn 
             FROM Gene

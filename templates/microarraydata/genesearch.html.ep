@@ -38,13 +38,19 @@
                 </h4>
             </div>
 
+
+            <% my $numres=scalar @{$results}; my $resulttext;%>
+            <% if ($numres == 1) {$resulttext = "There is $numres result with the searched parameters. "; } else { $resulttext = "There are $numres results with the searched parameters. ";} %>
+
+            <div class="accordion-expand-holder">
+                <a class="accordion-expand-all btn btn-one" href="#">Expand All</a>&nbsp; &nbsp;<strong><%= $resulttext %></strong>
+            </div>
+
+            <div id="accordion" class="ui-accordion ui-widget ui-helper-reset">
+
             <div class="panel-body">
 
-                %# First lets get all the initial values out of the arrayref and into an array of its own
-                <% my $gene_name; my (@info_array); %>  
                 <% foreach my $result (@${results}) { %>
-
-
 
                     % my $headervalues=Main::Controller::Genesubs::headervalues($result->[0]);
 
@@ -53,6 +59,12 @@
                             % my ($elmodal)=Subs::ext_links_modal($row->[3],$row->[2],$row->[4]);
                             <div class="container"><%== $elmodal %></div>
 
+                            <h3 class="accordion-header ui-accordion-header ui-helper-reset ui-state-default">
+                               
+                            <a class='my-tool-tip' data-toggle="tooltip" data-placement="top" title="Click to Expand/Collapse"> 
+                            <span class="glyphicon glyphicon-collapse-down"></span> </a> <%= $row->[0] %> - <%= $row->[1] %> </h3>
+
+                            <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 
                                 <div class="table-responsive">
                                     <table class="table">
@@ -175,9 +187,12 @@
                                         </tbody>
                                     </table>   
                                 </div>
+                                </div>
                         <% } %>
                 <% } %>   
             </div> 
+
+            </div>
         </div>
     </div>
 
