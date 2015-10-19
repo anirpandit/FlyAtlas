@@ -39,7 +39,7 @@
             </div>
 
 
-            <% my $numres=scalar @{$results}; my $resulttext;%>
+            <% my $numres=scalar @{$results}; use Data::Dumper; print Dumper($numres); my $resulttext;%>
             <% if ($numres == 1) {$resulttext = "There is $numres result with the searched parameters. "; } else { $resulttext = "There are $numres results with the searched parameters. ";} %>
 
             <div class="accordion-expand-holder">
@@ -48,149 +48,144 @@
 
             <div id="accordion" class="ui-accordion ui-widget ui-helper-reset">
 
-            <div class="panel-body">
+                <div class="panel-body">
 
-                <% foreach my $result (@${results}) { %>
+                    <% foreach my $row (@${results}) { %>
 
-                    % my $headervalues=Main::Controller::Genesubs::headervalues($result->[0]);
+                        % my ($elmodal)=Subs::ext_links_modal($row->[3],$row->[2],$row->[4]);
+                        <div class="container"><%== $elmodal %></div>
 
-                        % foreach my $row (@$headervalues) {
+                        <h3 class="accordion-header ui-accordion-header ui-helper-reset ui-state-default">
+                           
+                        <a class='my-tool-tip' data-toggle="tooltip" data-placement="top" title="Click to Expand/Collapse"> 
+                        <span class="glyphicon glyphicon-collapse-down"></span> </a> <%= $row->[0] %> - <%= $row->[1] %> </h3>
 
-                            % my ($elmodal)=Subs::ext_links_modal($row->[3],$row->[2],$row->[4]);
-                            <div class="container"><%== $elmodal %></div>
+                        <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
 
-                            <h3 class="accordion-header ui-accordion-header ui-helper-reset ui-state-default">
-                               
-                            <a class='my-tool-tip' data-toggle="tooltip" data-placement="top" title="Click to Expand/Collapse"> 
-                            <span class="glyphicon glyphicon-collapse-down"></span> </a> <%= $row->[0] %> - <%= $row->[1] %> </h3>
-
-                            <div class="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
-
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th> Gene Name</th>
-                                                <th> Gene Symbol</th>
-                                                <th> Annotation Symbol</th>
-                                                <th> FlyBase ID</th>
-                                                <th> ProbeSet ID</th>
-                                                <th> External Links</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><%= $row->[0] %></td>
-                                                <td><%= $row->[1] %></td>
-                                                <td><%= $row->[2] %></td>
-                                                <td><%= $row->[3] %></td>
-                                                <td><%= $row->[4] %></td>
-                                                
-                                                % my $href=join('_',"#ext_links",$row->[4]);
-                                                
-                                                <td><a href="<%= $href %> " class="btn btn-one round" data-toggle="modal" ><span class="glyphicon glyphicon-link"></span> Click Here</a></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th> Gene Name</th>
+                                            <th> Gene Symbol</th>
+                                            <th> Annotation Symbol</th>
+                                            <th> FlyBase ID</th>
+                                            <th> ProbeSet ID</th>
+                                            <th> External Links</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><%= $row->[0] %></td>
+                                            <td><%= $row->[1] %></td>
+                                            <td><%= $row->[2] %></td>
+                                            <td><%= $row->[3] %></td>
+                                            <td><%= $row->[4] %></td>
+                                            
+                                            % my $href=join('_',"#ext_links",$row->[4]);
+                                            
+                                            <td><a href="<%= $href %> " class="btn btn-one round" data-toggle="modal" ><span class="glyphicon glyphicon-link"></span> Click Here</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
 
-                                % my $genedata=Main::Controller::Genesubs::getgenedata($row->[3],$row->[4]);
+                            % my $genedata=Main::Controller::Genesubs::getgenedata($row->[3],$row->[4]);
 
-                                <div class="table-responsive">
-                                    <table class="table">
+                            <div class="table-responsive">
+                                <table class="table">
+                            
+                                    <thead>
+                                        <tr>
+                                            <th> Tissue</th>
+                                            <th> Adult Abundance </th>
+                                            <th> Adult Enrichment </th>
+                                            <th> Larval Abundance </th>
+                                            <th> Larval Enrichment </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <% my $checktissue = 0; my $checknametissue = '' ; %>
                                 
-                                        <thead>
-                                            <tr>
-                                                <th> Tissue</th>
-                                                <th> Adult Abundance </th>
-                                                <th> Adult Enrichment </th>
-                                                <th> Larval Abundance </th>
-                                                <th> Larval Enrichment </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                        <% foreach my $result (@{$genedata}) { %>
 
-                                            <% my $checktissue = 0; my $checknametissue = '' ; %>
-                                    
-                                            <% foreach my $result (@{$genedata}) { %>
+                                            <% my $UniTissue = $result->[0]; %>
+                                            <% my $FlyID = $result->[1]; %>
+                                            <% my $SignifChange = $result->[2]; %>
+                                            <% my $Abundance = Subs::roundup($result->[3]); %>
+                                            <% my $AbundanceSE = Subs::roundup($result->[4]); %>
+                                            <% my $SignalDetected = $result->[5]; %>
+                                            <% my $Enrichment = $result->[6]; %>
+                                            <% my $ProbeDegeneracy = $result->[7]; %>
 
-                                                <% my $UniTissue = $result->[0]; %>
-                                                <% my $FlyID = $result->[1]; %>
-                                                <% my $SignifChange = $result->[2]; %>
-                                                <% my $Abundance = Subs::roundup($result->[3]); %>
-                                                <% my $AbundanceSE = Subs::roundup($result->[4]); %>
-                                                <% my $SignalDetected = $result->[5]; %>
-                                                <% my $Enrichment = $result->[6]; %>
-                                                <% my $ProbeDegeneracy = $result->[7]; %>
+                                            <% my ($bkcell,$textcell)=Subs::getAbunCol($Abundance) ;%>
+                                            <% my ($bkcelle,$textcelle)=Subs::getEnrichCol($Enrichment) ;%>
 
-                                                <% my ($bkcell,$textcell)=Subs::getAbunCol($Abundance) ;%>
-                                                <% my ($bkcelle,$textcelle)=Subs::getEnrichCol($Enrichment) ;%>
+                                            <% #IF $SignalDetected is zero then change $Abundance to ND#
+                                            <% if ($checknametissue ne $UniTissue){ %>
 
-                                                <% #IF $SignalDetected is zero then change $Abundance to ND#
-                                                <% if ($checknametissue ne $UniTissue){ %>
+                                                <tr>
+                                                    <td style="background:white"><%= $UniTissue %></td>
 
-                                                    <tr>
-                                                        <td style="background:white"><%= $UniTissue %></td>
-
-                                                       <% #IF flyID is odd then show Adult abundance and enrichment else nbsp;# 
+                                                   <% #IF flyID is odd then show Adult abundance and enrichment else nbsp;# 
+                                                    
+                                                    <% if ($FlyID % 2 == 1){
                                                         
-                                                        <% if ($FlyID % 2 == 1){
-                                                            
-                                                            <% if ($SignalDetected != 0) { %>
-                                                                <% if ($SignalDetected < 4 ) { %>
-                                                                        
-                                                                        <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>">  <%= $Abundance %> &plusmn; <%= $AbundanceSE %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
-                                                                        <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %>">  <%= $Enrichment %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
-                                                                <% } else { %>
-                                                                        <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>"><%= $Abundance %> &plusmn; <%= $AbundanceSE %></td>
-                                                                        <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %>"><%= $Enrichment %></td>
-                                                                    <% } %>
-                                                                
-                                                                <% } else { %>
-                                                                    <td style="background:white"> ND </td>
-                                                                    <td style="background:white"> ND </td>
+                                                        <% if ($SignalDetected != 0) { %>
+                                                            <% if ($SignalDetected < 4 ) { %>
+                                                                    
+                                                                    <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>">  <%= $Abundance %> &plusmn; <%= $AbundanceSE %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                                                    <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %>">  <%= $Enrichment %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                                            <% } else { %>
+                                                                    <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>"><%= $Abundance %> &plusmn; <%= $AbundanceSE %></td>
+                                                                    <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %>"><%= $Enrichment %></td>
                                                                 <% } %>
-
-                                                                <% $checknametissue = $UniTissue; %>
-                                                        <% } else { %>
-                                                            <td> &nbsp; </td>
-                                                            <td> &nbsp; </td>
-
-                                                        <% } %>
-
-                                                <% } %>
-                                              
-                                                <% if ($FlyID % 2 == 0){ %>
-                                                    <% if ($SignalDetected != 0) { %>
-                                                        <% if ($SignalDetected < 4 ) { %>
-                                                                <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>">  <%= $Abundance %> &plusmn; <%= $AbundanceSE %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
-                                                                <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %>" class = "tdlastcol">  <%= $Enrichment %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
-                                                        <% } else { %>
-                                                                <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>"><%= $Abundance %> &plusmn; <%= $AbundanceSE %></td>
-                                                                <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %>" class = "tdlastcol"><%= $Enrichment %></td>
+                                                            
+                                                            <% } else { %>
+                                                                <td style="background:white"> ND </td>
+                                                                <td style="background:white"> ND </td>
                                                             <% } %>
-                                                        
-                                                        <% } else { %>
-                                                            <td style="background:white"> ND </td>
-                                                            <td style="background:white" class = "tdlastcol"> ND </td>
+
+                                                            <% $checknametissue = $UniTissue; %>
+                                                    <% } else { %>
+                                                        <td> &nbsp; </td>
+                                                        <td> &nbsp; </td>
+
+                                                    <% } %>
+
+                                            <% } %>
+                                          
+                                            <% if ($FlyID % 2 == 0){ %>
+                                                <% if ($SignalDetected != 0) { %>
+                                                    <% if ($SignalDetected < 4 ) { %>
+                                                            <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>">  <%= $Abundance %> &plusmn; <%= $AbundanceSE %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                                            <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %>" class = "tdlastcol">  <%= $Enrichment %> <a href="#" data-toggle="tooltip" title="Detected in <%= $SignalDetected %> out of 4 array(s)"><span class="glyphicon glyphicon-flag text-danger"></span> </a> </td>
+                                                    <% } else { %>
+                                                            <td style="background-color: <%= $bkcell %>;color: <%= $textcell %>"><%= $Abundance %> &plusmn; <%= $AbundanceSE %></td>
+                                                            <td style="background-color: <%= $bkcelle %>;color: <%= $textcelle %>" class = "tdlastcol"><%= $Enrichment %></td>
                                                         <% } %>
+                                                    
+                                                    <% } else { %>
+                                                        <td style="background:white"> ND </td>
+                                                        <td style="background:white" class = "tdlastcol"> ND </td>
+                                                    <% } %>
 
-                                                        <% $checknametissue = $checknametissue; %>
-                                                <% } 
+                                                    <% $checknametissue = $checknametissue; %>
+                                            <% } 
 
 
-                                                    </tr>
+                                                </tr>
 
-                                            <% } %> 
+                                        <% } %> 
 
-                                        </tbody>
-                                    </table>   
-                                </div>
-                                </div>
-                        <% } %>
-                <% } %>   
-            </div> 
+                                    </tbody>
+                                </table>   
+                            </div>
+                        </div>
+                    <% } %>   
+                </div> 
 
             </div>
         </div>

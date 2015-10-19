@@ -13,39 +13,49 @@ sub do_genesearch {
     my $gene = $self->param('gene');
 
     my $searchtype= $self->param('searchtype');
+    
+    if(!$searchtype){$searchtype = 0;}
 
     #Gene Search Form Queries#
     my ($query);
 
-    if(defined $searchtype == 1){
+    if($searchtype == 1){
         $query = q(
-            SELECT DISTINCT Gene.FBgn 
-            FROM Gene
-            WHERE Gene.Name = ? 
+                    SELECT DISTINCT Gene.Name, Gene.Symbol, Gene.CGNum, Gene.FBgn, Experiment.ProbesetID
+                    FROM Gene, Experiment, Probeset
+                    WHERE Gene.FBgn = Probeset.FBgn
+                    AND Probeset.ProbesetID = Experiment.ProbesetID
+                    AND Gene.FBgn = (SELECT DISTINCT Gene.FBgn FROM Gene WHERE Gene.Name = ?)
         );
     }
 
-    elsif(defined $searchtype == 2){
+    elsif($searchtype == 2){
         $query = q(
-            SELECT DISTINCT Gene.FBgn 
-            FROM Gene
-            WHERE Gene.Symbol = ? 
+                    SELECT DISTINCT Gene.Name, Gene.Symbol, Gene.CGNum, Gene.FBgn, Experiment.ProbesetID
+                    FROM Gene, Experiment, Probeset
+                    WHERE Gene.FBgn = Probeset.FBgn
+                    AND Probeset.ProbesetID = Experiment.ProbesetID
+                    AND Gene.FBgn = (SELECT DISTINCT Gene.FBgn FROM Gene WHERE Gene.Symbol = ?)
         );
     }
 
-    elsif(defined $searchtype == 3){
+    elsif($searchtype == 3){
         $query = q(
-            SELECT DISTINCT Gene.FBgn 
-            FROM Gene
-            WHERE Gene.CGNum = ?
+                    SELECT DISTINCT Gene.Name, Gene.Symbol, Gene.CGNum, Gene.FBgn, Experiment.ProbesetID
+                    FROM Gene, Experiment, Probeset
+                    WHERE Gene.FBgn = Probeset.FBgn
+                    AND Probeset.ProbesetID = Experiment.ProbesetID
+                    AND Gene.FBgn = (SELECT DISTINCT Gene.FBgn FROM Gene WHERE Gene.CGNum = ?)
         );
     }
 
     else{
         $query = q(
-            SELECT DISTINCT Gene.FBgn 
-            FROM Gene
-            WHERE Gene.FBgn = ?
+                    SELECT DISTINCT Gene.Name, Gene.Symbol, Gene.CGNum, Gene.FBgn, Experiment.ProbesetID
+                    FROM Gene, Experiment, Probeset
+                    WHERE Gene.FBgn = Probeset.FBgn
+                    AND Probeset.ProbesetID = Experiment.ProbesetID
+                    AND Gene.FBgn = (SELECT DISTINCT Gene.FBgn FROM Gene WHERE Gene.FBgn = ?)
         );
     }
 
@@ -55,6 +65,7 @@ sub do_genesearch {
     
     $sth->execute($gene);
     
+
     $self->stash(
         gene => $gene,
         results => $sth->fetchall_arrayref
@@ -63,28 +74,5 @@ sub do_genesearch {
     $self->render('/microarraydata/genesearch');
 };
 
-sub headervalues{
-    
-    my $self = shift;
-    my $FBgn = shift;
 
-    my $query = q(
-            SELECT DISTINCT Gene.Name, Gene.Symbol, 
-            Gene.CGNum, Gene.FBgn, Experiment.ProbesetID, 
-            FROM Experiment, Probeset, Gene, FlyAnat
-            WHERE Gene.FBgn = Probeset.FBgn
-            AND Probeset.ProbesetID = Experiment.ProbesetID
-            AND Gene.FBgn = ? 
-        );
-
-
-    my $dbh = $self->app->dbh;
-    my $sth = $dbh->prepare($query);
-    
-    $sth->execute($FBgn);
-
-    my @headervalues=$sth->fetchall_arrayref;
-
-    return @headervalues;
-}
 1;
